@@ -32,7 +32,11 @@ const getRequests = async (req, res) => {
     if (type === 'sent') {
       const requests = await Request.findAll({
         where: { requester_id: req.user.id },
-        include: [{ model: Post, attributes: ['id', 'title', 'type', 'status'] }],
+        include: [{
+          model: Post,
+          attributes: ['id', 'title', 'type', 'status'],
+          include: [{ model: User, as: 'author', attributes: ['id', 'username'] }],
+        }],
         order: [['request_date', 'DESC']],
       });
       return res.json(requests);
