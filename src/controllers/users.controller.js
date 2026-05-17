@@ -1,9 +1,33 @@
+const { User } = require('../models');
+
 const getUser = async (req, res) => {
-  res.json({ message: 'TODO: getUser' });
+  try {
+    const user = await User.findByPk(req.params.id, {
+      attributes: { exclude: ['password'] },
+    });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 const updateUser = async (req, res) => {
-  res.json({ message: 'TODO: updateUser' });
+  try {
+    const { id } = req.params;
+    if (req.user.id !== parseInt(id)) return res.status(403).json({ error: 'Forbidden' });
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const { username, bio, profile_picture } = req.body;
+    await user.update({ username, bio, profile_picture });
+
+    const { password, ...data } = user.toJSON();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 module.exports = { getUser, updateUser };
