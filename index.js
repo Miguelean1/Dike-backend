@@ -10,6 +10,7 @@ const messagesRoutes = require('./src/routes/messages.routes');
 const ratingsRoutes = require('./src/routes/ratings.routes');
 const categoriesRoutes = require('./src/routes/categories.routes');
 const tagsRoutes = require('./src/routes/tags.routes');
+const requestsRoutes = require('./src/routes/requests.routes');
 
 const app = express();
 app.use(cors());
@@ -22,6 +23,7 @@ app.use('/api/messages', messagesRoutes);
 app.use('/api/ratings', ratingsRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/tags', tagsRoutes);
+app.use('/api/requests', requestsRoutes);
 
 const PORT = process.env.PORT || 3001;
 
