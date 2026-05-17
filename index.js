@@ -1,25 +1,26 @@
-
+require('dotenv').config();
 const express = require('express');
 
+const authRoutes = require('./src/routes/auth.routes');
+const usersRoutes = require('./src/routes/users.routes');
+const postsRoutes = require('./src/routes/posts.routes');
+const messagesRoutes = require('./src/routes/messages.routes');
+const ratingsRoutes = require('./src/routes/ratings.routes');
+const categoriesRoutes = require('./src/routes/categories.routes');
+const tagsRoutes = require('./src/routes/tags.routes');
 
 const app = express();
-app.use(express.json());      
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('API funcionando 🚀');
-});
-
-app.get('/api/status', (req, res) => {
-  res.json({
-    ok: true,
-    message: 'Backend operativo',
-    timestamp: new Date().toISOString(),
-  });
-});
-
+app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/posts', postsRoutes);
+app.use('/api/messages', messagesRoutes);
+app.use('/api/ratings', ratingsRoutes);
+app.use('/api/categories', categoriesRoutes);
+app.use('/api/tags', tagsRoutes);
 
 const PORT = process.env.PORT || 3001;
-
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
