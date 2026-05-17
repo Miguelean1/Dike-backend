@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const sequelize = require('./src/config/database');
 
 const authRoutes = require('./src/routes/auth.routes');
@@ -11,6 +12,7 @@ const categoriesRoutes = require('./src/routes/categories.routes');
 const tagsRoutes = require('./src/routes/tags.routes');
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
