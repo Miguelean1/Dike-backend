@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const { body } = require('express-validator');
-const { getConversation, sendMessage, markAsRead } = require('../controllers/messages.controller');
+const { getConversations, getConversation, sendMessage, markAsRead } = require('../controllers/messages.controller');
 const { authGuard } = require('../middleware/auth.middleware');
 const validate = require('../middleware/validate');
 
 const router = Router();
 
+router.get('/', authGuard, getConversations);
 router.get('/:userId', authGuard, getConversation);
 
 router.post('/',

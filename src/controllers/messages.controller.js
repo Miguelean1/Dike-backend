@@ -1,6 +1,51 @@
 const { Op } = require('sequelize');
 const { Message, User } = require('../models');
 
+const getConversations = async (req, res) => {
+  try {
+    const myId = req.user.id;
+
+    const messages = await Message.findAll({
+      where: {
+        [Op.or]: [{ sender_id: myId }, { receiver_id: myId }],
+      },
+      include: [
+        { model: User, as: 'sender', attributes: ['id', 'username', 'profile_picture'] },
+        { model: User, as: 'receiver', attributes: ['id', 'username', 'profile_picture'] },
+      ],
+      order: [['sent_date', 'DESC']],
+    });
+
+    const conversationsMap = new Map();
+
+    for (const msg of messages) {
+      const isFromMe = msg.sender_id === myId;
+      const otherId = isFromMe ? msg.receiver_id : msg.sender_id;
+      const otherUser = isFromMe ? msg.receiver : msg.sender;
+
+      if (!conversationsMap.has(otherId)) {
+        conversationsMap.set(otherId, {
+          user: otherUser,
+          last_message: {
+            content: msg.content,
+            sent_date: msg.sent_date,
+            is_mine: isFromMe,
+          },
+          unread_count: 0,
+        });
+      }
+
+      if (!isFromMe && !msg.read_status) {
+        conversationsMap.get(otherId).unread_count++;
+      }
+    }
+
+    res.json(Array.from(conversationsMap.values()));
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 const getConversation = async (req, res) => {
   try {
     const myId = req.user.id;
@@ -48,4 +93,4 @@ const markAsRead = async (req, res) => {
   }
 };
 
-module.exports = { getConversation, sendMessage, markAsRead };
+module.exports = { getConversations, getConversation, sendMessage, markAsRead };
