@@ -20,7 +20,8 @@ const updateUser = async (req, res) => {
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    const { username, bio, profile_picture } = req.body;
+    const { username, bio } = req.body;
+    const profile_picture = req.cloudinaryUrl || req.body.profile_picture || user.profile_picture;
     await user.update({ username, bio, profile_picture });
 
     const { password, ...data } = user.toJSON();
