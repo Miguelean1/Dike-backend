@@ -12,6 +12,7 @@ const categoriesRoutes = require('./src/routes/categories.routes');
 const tagsRoutes = require('./src/routes/tags.routes');
 const requestsRoutes = require('./src/routes/requests.routes');
 const adminRoutes = require('./src/routes/admin.routes');
+const newsletterRoutes = require('./src/routes/newsletter.routes');
 
 const app = express();
 app.use((req, res, next) => {
@@ -33,6 +34,7 @@ app.use('/api/categories', categoriesRoutes);
 app.use('/api/tags', tagsRoutes);
 app.use('/api/requests', requestsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 const PORT = process.env.PORT || 3001;
 
