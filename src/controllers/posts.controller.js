@@ -1,9 +1,8 @@
-const { Op } = require('sequelize');
 const { Post, User, Tag } = require('../models');
 
 const getPosts = async (req, res) => {
   try {
-    const { type, category, status = 'active' } = req.query;
+    const { type, category, status = 'available' } = req.query;
     const where = { status };
     if (type) where.type = type;
     if (category) where.category = category;
@@ -80,6 +79,20 @@ const updatePost = async (req, res) => {
   }
 };
 
+const updatePostStatus = async (req, res) => {
+  try {
+    const post = await Post.findByPk(req.params.id);
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+    if (post.user_id !== req.user.id) return res.status(403).json({ error: 'Forbidden' });
+
+    const { status } = req.body;
+    await post.update({ status });
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 const deletePost = async (req, res) => {
   try {
     const post = await Post.findByPk(req.params.id);
@@ -93,4 +106,4 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { getPosts, getPost, createPost, updatePost, deletePost };
+module.exports = { getPosts, getPost, createPost, updatePost, updatePostStatus, deletePost };

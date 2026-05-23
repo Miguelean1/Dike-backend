@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { body } = require('express-validator');
-const { getPosts, getPost, createPost, updatePost, deletePost } = require('../controllers/posts.controller');
+const { getPosts, getPost, createPost, updatePost, updatePostStatus, deletePost } = require('../controllers/posts.controller');
 const { authGuard } = require('../middleware/auth.middleware');
 const validate = require('../middleware/validate');
 const upload = require('../middleware/upload');
@@ -26,10 +26,18 @@ router.put('/:id',
   authGuard,
   ...upload('posts'),
   validate([
-    body('type').optional().isIn(['loan', 'donation', 'exchange']).withMessage('Type must be loan, donation or exchange'),
-    body('status').optional().isIn(['active', 'completed', 'cancelled']).withMessage('Invalid status'),
+    body('type').optional().isIn(['loan', 'donation', 'exchange']).withMessage('Invalid type'),
+    body('status').optional().isIn(['available', 'borrowed', 'reserved']).withMessage('Invalid status'),
   ]),
   updatePost
+);
+
+router.patch('/:id/status',
+  authGuard,
+  validate([
+    body('status').isIn(['available', 'borrowed', 'reserved']).withMessage('Invalid status'),
+  ]),
+  updatePostStatus
 );
 
 router.delete('/:id', authGuard, deletePost);

@@ -6,7 +6,7 @@ const createRequest = async (req, res) => {
 
     const post = await Post.findByPk(post_id);
     if (!post) return res.status(404).json({ error: 'Post not found' });
-    if (post.status !== 'active') return res.status(400).json({ error: 'Post is not available' });
+    if (post.status !== 'available') return res.status(400).json({ error: 'Post is not available' });
     if (post.user_id === req.user.id) return res.status(400).json({ error: 'Cannot request your own post' });
 
     const existing = await Request.findOne({ where: { post_id, requester_id: req.user.id } });
@@ -88,7 +88,8 @@ const respondRequest = async (req, res) => {
     await request.update({ status });
 
     if (status === 'accepted') {
-      await request.Post.update({ status: 'completed' });
+      const newStatus = request.Post.type === 'loan' ? 'borrowed' : 'reserved';
+      await request.Post.update({ status: newStatus });
     }
 
     res.json(request);

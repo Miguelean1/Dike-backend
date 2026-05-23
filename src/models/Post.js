@@ -9,7 +9,7 @@ const Post = sequelize.define('Post', {
   category: { type: DataTypes.STRING(100), allowNull: false },
   image: { type: DataTypes.STRING(255) },
   type: { type: DataTypes.ENUM('loan', 'donation', 'exchange'), allowNull: false },
-  status: { type: DataTypes.ENUM('active', 'completed', 'cancelled'), defaultValue: 'active' },
+  status: { type: DataTypes.ENUM('available', 'borrowed', 'reserved'), defaultValue: 'available' },
   creation_date: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
 }, {
   tableName: 'posts',
