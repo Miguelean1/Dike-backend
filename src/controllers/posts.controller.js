@@ -2,20 +2,33 @@ const { Post, User, Tag } = require('../models');
 
 const getPosts = async (req, res) => {
   try {
-    const { type, category, status = 'available' } = req.query;
+    const { type, category, status = 'available', page = 1, limit = 12 } = req.query;
     const where = { status };
     if (type) where.type = type;
     if (category) where.category = category;
 
-    const posts = await Post.findAll({
+    const parsedPage = Math.max(1, parseInt(page));
+    const parsedLimit = Math.min(50, Math.max(1, parseInt(limit)));
+    const offset = (parsedPage - 1) * parsedLimit;
+
+    const { count, rows } = await Post.findAndCountAll({
       where,
       include: [
         { model: User, as: 'author', attributes: ['id', 'username', 'profile_picture'] },
         { model: Tag, through: { attributes: [] } },
       ],
       order: [['creation_date', 'DESC']],
+      limit: parsedLimit,
+      offset,
+      distinct: true,
     });
-    res.json(posts);
+
+    res.json({
+      posts: rows,
+      total: count,
+      page: parsedPage,
+      totalPages: Math.ceil(count / parsedLimit),
+    });
   } catch (err) {
     res.status(500).json({ error: 'Internal server error' });
   }
