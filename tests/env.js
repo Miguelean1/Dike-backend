@@ -1,0 +1,10 @@
+process.env.DB_HOST = 'localhost';
+process.env.DB_PORT = '3306';
+process.env.DB_NAME = 'dikhe_test_db';
+process.env.DB_USER = 'root';
+process.env.DB_PASSWORD = '1234';
+process.env.JWT_SECRET = 'test_secret_jest_123';
+process.env.CORS_ORIGIN = 'http://localhost:5173';
+process.env.FRONTEND_URL = 'http://localhost:5173';
+process.env.EMAIL_USER = 'test@test.com';
+process.env.EMAIL_PASS = 'testpass';
