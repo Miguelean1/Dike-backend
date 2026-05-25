@@ -28,7 +28,7 @@ router.get('/posts', getAllPosts);
 router.put('/posts/:id',
   validate([
     body('type').optional().isIn(['loan', 'donation', 'exchange']).withMessage('Invalid type'),
-    body('status').optional().isIn(['active', 'completed', 'cancelled']).withMessage('Invalid status'),
+    body('status').optional().isIn(['available', 'borrowed', 'reserved']).withMessage('Invalid status'),
   ]),
   updatePost
 );

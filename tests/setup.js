@@ -6,10 +6,14 @@ beforeAll(async () => {
 
 afterEach(async () => {
   await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
-  for (const model of Object.values(sequelize.models)) {
-    await model.destroy({ where: {}, truncate: true });
-  }
+  await sequelize.query('DELETE FROM ratings');
+  await sequelize.query('DELETE FROM requests');
+  await sequelize.query('DELETE FROM messages');
   await sequelize.query('DELETE FROM post_tags');
+  await sequelize.query('DELETE FROM posts');
+  await sequelize.query('DELETE FROM users');
+  await sequelize.query('DELETE FROM categories');
+  await sequelize.query('DELETE FROM tags');
   await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
 });
 
