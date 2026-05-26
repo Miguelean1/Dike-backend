@@ -55,23 +55,30 @@ Crear un fichero `.env` en la raíz del proyecto con las siguientes claves:
 PORT=3002
 
 # Base de datos
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=dikhe_db
+DB_USER=root
 DB_PASSWORD=
 
 # JWT
-JWT_SECRET=
+JWT_SECRET=una_clave_secreta_segura
 
 # Cloudinary
 CLOUDINARY_CLOUD_NAME=tu_cloud_name
 CLOUDINARY_API_KEY=tu_api_key
 CLOUDINARY_API_SECRET=tu_api_secret
 
-# CORS
+# Email (cuenta Gmail con contraseña de aplicación)
+EMAIL_USER=tu_correo@gmail.com
+EMAIL_PASS=tu_app_password
+
+# URLs
 CORS_ORIGIN=http://localhost:5173
+FRONTEND_URL=http://localhost:5173
 ```
+
+> **Nota:** Para `EMAIL_PASS` usa una [contraseña de aplicación de Google](https://myaccount.google.com/apppasswords), no tu contraseña normal de Gmail.
 
 ---
 
@@ -143,6 +150,7 @@ Authorization: Bearer <token>
 | Método | Ruta | Auth | Descripción |
 |--------|------|:----:|-------------|
 | `GET` | `/api/users/:id` | — | Obtener perfil de un usuario |
+| `GET` | `/api/users/:id/posts` | — | Obtener anuncios de un usuario |
 | `PUT` | `/api/users/:id` | ✓ | Actualizar perfil (username, avatar) |
 
 ### Publicaciones
@@ -193,6 +201,12 @@ Authorization: Bearer <token>
 | `GET` | `/api/tags` | — | Listar todas las etiquetas |
 | `POST` | `/api/tags` | ✓ | Crear etiqueta |
 
+### Newsletter
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `POST` | `/api/newsletter/subscribe` | — | Enviar email de bienvenida con consejos |
+
 ---
 
 ## Middleware
@@ -207,10 +221,16 @@ Authorization: Bearer <token>
 
 ## Scripts disponibles
 
-```bash
-npm start      # node index.js
-npm run dev    # nodemon index.js
-```
+| Comando | Descripción |
+|---------|-------------|
+| `npm start` | Servidor en producción |
+| `npm run dev` | Servidor en desarrollo (nodemon) |
+| `npm test` | Ejecuta los tests con cobertura |
+| `npm run test:watch` | Tests en modo watch |
+| `npm run db:migrate` | Ejecuta las migraciones |
+| `npm run db:migrate:undo` | Revierte la última migración |
+| `npm run db:seed` | Inserta datos de prueba |
+| `npm run db:seed:undo` | Elimina los datos de prueba |
 
 ---
 
