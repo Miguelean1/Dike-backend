@@ -52,7 +52,7 @@ npm start        # producción
 Crear un fichero `.env` en la raíz del proyecto con las siguientes claves:
 
 ```env
-PORT=3001
+PORT=3002
 
 # Base de datos
 DB_HOST=
@@ -124,7 +124,7 @@ DikeBack/
 
 ## Referencia de la API
 
-La URL base en desarrollo es `http://localhost:3001/api`.
+La URL base en desarrollo es `http://localhost:3002/api`.
 
 Las rutas marcadas con `auth` requieren el header:
 ```
