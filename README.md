@@ -131,6 +131,69 @@ Las rutas marcadas con `auth` requieren el header:
 Authorization: Bearer <token>
 ```
 
+### Auth
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `POST` | `/api/auth/register` | — | Registrar usuario |
+| `POST` | `/api/auth/login` | — | Iniciar sesión y obtener JWT |
+
+### Usuarios
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `GET` | `/api/users/:id` | — | Obtener perfil de un usuario |
+| `PUT` | `/api/users/:id` | ✓ | Actualizar perfil (username, avatar) |
+
+### Publicaciones
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `GET` | `/api/posts` | — | Listar todas las publicaciones |
+| `GET` | `/api/posts/:id` | — | Obtener una publicación por ID |
+| `POST` | `/api/posts` | ✓ | Crear publicación (admite imagen) |
+| `PUT` | `/api/posts/:id` | ✓ | Editar publicación (admite imagen) |
+| `DELETE` | `/api/posts/:id` | ✓ | Eliminar publicación |
+
+### Solicitudes
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `GET` | `/api/requests` | ✓ | Listar solicitudes del usuario autenticado |
+| `POST` | `/api/requests` | ✓ | Crear solicitud sobre una publicación |
+| `PUT` | `/api/requests/:id` | ✓ | Responder solicitud (`accepted` / `rejected`) |
+
+### Mensajes
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `GET` | `/api/messages` | ✓ | Listar conversaciones del usuario |
+| `GET` | `/api/messages/:userId` | ✓ | Obtener mensajes con un usuario concreto |
+| `POST` | `/api/messages` | ✓ | Enviar mensaje |
+| `PUT` | `/api/messages/:id/read` | ✓ | Marcar mensaje como leído |
+
+### Valoraciones
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `GET` | `/api/ratings/user/:userId` | — | Obtener valoraciones de un usuario |
+| `POST` | `/api/ratings` | ✓ | Crear valoración (score 1–5) |
+
+### Categorías
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `GET` | `/api/categories` | — | Listar todas las categorías |
+| `POST` | `/api/categories` | ✓ | Crear categoría |
+
+### Etiquetas
+
+| Método | Ruta | Auth | Descripción |
+|--------|------|:----:|-------------|
+| `GET` | `/api/tags` | — | Listar todas las etiquetas |
+| `POST` | `/api/tags` | ✓ | Crear etiqueta |
+
+---
 
 ## Middleware
 
