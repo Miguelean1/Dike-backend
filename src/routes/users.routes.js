@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { body } = require('express-validator');
-const { getUser, updateUser } = require('../controllers/users.controller');
+const { getUser, updateUser, getUserPosts } = require('../controllers/users.controller');
 const { authGuard } = require('../middleware/auth.middleware');
 const validate = require('../middleware/validate');
 const upload = require('../middleware/upload');
@@ -8,6 +8,7 @@ const upload = require('../middleware/upload');
 const router = Router();
 
 router.get('/:id', getUser);
+router.get('/:id/posts', getUserPosts);
 
 router.put('/:id',
   authGuard,

@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Post } = require('../models');
 
 const getUser = async (req, res) => {
   try {
@@ -31,4 +31,16 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, updateUser };
+const getUserPosts = async (req, res) => {
+  try {
+    const posts = await Post.findAll({
+      where: { user_id: req.params.id },
+      order: [['creation_date', 'DESC']],
+    });
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+module.exports = { getUser, updateUser, getUserPosts };
