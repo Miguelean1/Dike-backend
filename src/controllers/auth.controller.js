@@ -13,13 +13,10 @@ const register = async (req, res) => {
     if (existing) return res.status(409).json({ error: 'Email already in use' });
 
     const hashed = await bcrypt.hash(password, 10);
-    const verificationToken = crypto.randomBytes(32).toString('hex');
 
-    await User.create({ email, password: hashed, username, verification_token: verificationToken });
+    await User.create({ email, password: hashed, username, email_verified: true });
 
-    await sendVerificationEmail(email, verificationToken);
-
-    res.status(201).json({ message: 'Cuenta creada. Revisa tu correo para verificarla.' });
+    res.status(201).json({ message: 'Cuenta creada correctamente.' });
   } catch (err) {
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -34,10 +31,6 @@ const login = async (req, res) => {
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ error: 'Credenciales incorrectas' });
-
-    if (!user.email_verified) {
-      return res.status(403).json({ error: 'Debes verificar tu correo antes de acceder.' });
-    }
 
     const token = jwt.sign(
       { id: user.id, role: user.role },
