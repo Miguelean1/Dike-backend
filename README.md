@@ -69,16 +69,14 @@ CLOUDINARY_CLOUD_NAME=tu_cloud_name
 CLOUDINARY_API_KEY=tu_api_key
 CLOUDINARY_API_SECRET=tu_api_secret
 
-# Email (cuenta Gmail con contraseña de aplicación)
-EMAIL_USER=tu_correo@gmail.com
-EMAIL_PASS=tu_app_password
+
 
 # URLs
 CORS_ORIGIN=http://localhost:5173
 FRONTEND_URL=http://localhost:5173
 ```
 
-> **Nota:** Para `EMAIL_PASS` usa una [contraseña de aplicación de Google](https://myaccount.google.com/apppasswords), no tu contraseña normal de Gmail.
+
 
 ---
 
