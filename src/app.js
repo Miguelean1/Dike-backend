@@ -15,10 +15,9 @@ const newsletterRoutes = require('./routes/newsletter.routes');
 const app = express();
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
 }));
 app.use(express.json());
 
